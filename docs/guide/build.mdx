@@ -1,0 +1,52 @@
+You can compile the server into executable JavaScript using the build feature.
+
+<Box type="warning">🚧 This feature is still under development.</Box>
+
+## Building a Runnable Server
+
+Since Dobs uses file-based routing and automatic route loading, it cannot run without the Dobs CLI or API.
+Additionally, when using TypeScript files, loading pages may take extra time.
+
+By using the build feature, you can compile your project into a standalone executable form that preloads all TypeScript files, allowing it to run independently of the framework.
+
+The compiled code uses the same internal logic as the Dobs dev server, ensuring full compatibility.
+
+## Build with CLI
+
+```bash
+dobs build
+```
+
+Use the `build` command to compile your project.
+
+A `_temp.js` file will be generated inside the `/dist/` directory.
+
+## Build with API
+
+<Tabs>
+  <TabItem id="TypeScript">
+
+```ts
+import { buildServer, resolveConfig } from "dobs";
+
+const config = {};
+
+buildServer(resolveConfig(config)).then(() => {});
+```
+
+  </TabItem>
+  <TabItem id="JavaScript">
+
+```ts
+const { buildServer, resolveConfig } = require("dobs");
+
+const config = {};
+
+buildServer(resolveConfig(config)).then(() => {});
+```
+
+  </TabItem>
+</Tabs>
+
+You can build the server using the `buildServer()` function.
+Since it requires a resolved configuration, make sure to provide it with `resolveConfig()`.

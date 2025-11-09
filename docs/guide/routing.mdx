@@ -1,0 +1,22 @@
+Dobs automatically generates routes based on your file tree of pages.
+
+Route files must be located in the `/app/` directory, and all files within the `/app/` directory are treated as routes.
+
+In the example below, the `.ts` extension is used, but the `.js` extension is also supported.
+
+## Static Routes
+
+| Filename      | Path     |
+| ------------- | -------- |
+| `/index.ts`   | /        |
+| `/foo.ts`     | /foo     |
+| `/foo/bar.ts` | /foo/bar |
+
+## Dynamic Routes
+
+| Filename          | Path       |
+| ----------------- | ---------- |
+| `/[id].ts`        | /:id       |
+| `/[id]/index.ts`  | /:id       |
+| `/[id]/foo.ts`    | /:id/foo   |
+| `/[...params].ts` | /:\*params |

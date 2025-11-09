@@ -1,0 +1,40 @@
+You can improve server performance by caching heavy data or operations for reuse.
+
+## Usage
+
+Caching is provided through a helper function.
+To enable caching, pass a cache instance as the second argument to `defineRoutes()`.
+
+```ts
+import { defineRoutes } from "dobs";
+import { useCache } from "dobs/experimental";
+
+export default defineRoutes((req, res) => {}, [useCache()]);
+```
+
+<Box type="info">
+  If you are not using `defineRoutes()`, you can wrap your router object instead.
+
+```ts
+import { useCache } from "dobs/experimental";
+
+const cache = useCache();
+
+module.exports = cache((req, res) => {});
+```
+
+</Box>
+
+## Cache Unique ID
+
+```ts
+const id =
+  normalizePath(req.URL.pathname) + "-" + (method ?? req.method.toUpperCase());
+```
+
+The unique cache ID is generated as shown above.
+
+It includes:
+
+- pathname
+- method

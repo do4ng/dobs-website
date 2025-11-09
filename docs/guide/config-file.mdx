@@ -1,0 +1,80 @@
+By default, Dobs looks for a configuration file in the working directory.
+
+- `dobs.config.ts`
+- `dobs.config.mts`
+- `dobs.config.cts`
+- `dobs.config.js`
+- `dobs.config.mjs`
+- `dobs.config.cjs`
+- `dobs.config.json`
+
+You can specify a custom configuration file using the `--config` flag in the CLI, but it’s recommended not to rely on this option.
+
+## Creating a Config File
+
+You can customize the Dobs server using a configuration file.
+
+<Tabs>
+  <TabItem id="TypeScript">
+
+```ts
+import { defineConfig } from "dobs";
+
+export default defineConfig({});
+```
+
+</TabItem>
+<TabItem id="JavaScript">
+```ts
+module.exports = {};
+```
+
+  </TabItem>
+</Tabs>
+
+<Box type="info">
+  The `defineConfig()` function exists only for type safety and can also be used
+  in JavaScript.
+</Box>
+
+## Config Interface
+
+- [#config.ts](https://github.com/zely-js/dobs/blob/main/packages/dobs/src/config.ts)
+
+```ts
+export interface ResolvedServerConfig {
+  /** port to serve (default: 8080) */
+  port: number;
+  /** middlewares */
+  middlewares: Middleware[];
+  /** base server */
+  createServer: typeof createServer;
+  /** cwd */
+  cwd: string;
+  /**
+   * + `serve` : return server instance (default)
+   * + `middleware` : return dobs middleware
+   */
+  mode: "serve" | "middleware";
+  /**
+   * temp path (relative, default: `./.dobs/`)
+   */
+  temp: string;
+
+  _internal: {
+    preloaded_modules: Record<string, any>;
+    /**
+     * + `default` : use file routes (default)
+     * + `force-preloaded-modules` : use preloaded pages (no disk files)
+     */
+    mode: "default" | "force-preloaded-modules";
+  };
+
+  build: {
+    /**
+     * build output directory (relative)
+     */
+    directory: string;
+  };
+}
+```

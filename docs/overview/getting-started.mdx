@@ -1,0 +1,38 @@
+In this chapter, I’ll introduce how to create a backend project based on **dobs**.
+
+## Downloading a Template
+
+You can create a project using the `dobs` CLI tool:
+
+```bash
+npm create dobs
+```
+
+Available templates:
+
+- TypeScript _(recommended)_
+- JavaScript
+
+## Manual Installation
+
+You can also install dobs manually in an existing project.
+
+1. Install the dobs module.
+
+```bash
+yarn add dobs
+```
+
+2. Create the `/app` directory.
+
+3. Create `dobs.config.ts` (optional).
+
+```ts
+import { defineConfig } from "dobs";
+
+export default defineConfig({
+  // ...
+});
+```
+
+4. Have fun!

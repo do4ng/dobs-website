@@ -1,0 +1,104 @@
+In this blog, I'll introduce why I decided to create **dobs** and provide a brief overview of what it is.
+
+## About dobs
+
+dobs is a lightweight backend framework.
+
+The previous backend framework I developed, [zelyjs](https://zely.vercel.app), which was made for personal side projects, had several issues:
+
+- **Framework lock-in**
+
+Being bound to a framework isn't necessarily bad if the foundation is solid. However, I can't say that zelyjs had a strong foundation.
+
+- **Unnecessary packages**
+
+The framework included [serpack](https://zely.vercel.app/serpack), which was initially created to support smart server caching by modifying low-level AST.
+However, during development, I realized that implementing smart server caching was nearly impossible. I kept developing it mostly for fun, which made the framework unnecessarily heavy.
+Although it achieved some speed improvements, they were negligible compared to the drawbacks—such as slower feature development due to constant serpack updates.
+
+- **Terrible DX**
+
+It wasn't initially designed with developer experience in mind, but the DX ended up being truly terrible.
+
+---
+
+To address these issues, I decided to build a new framework.
+This framework will also be developed for personal side projects and is not intended for wide adoption. However, I aim to improve stability and DX so that it can support backend projects beyond small side projects.
+
+## dobs Architecture
+
+This framework consists of the following packages:
+
+- [dobs](https://github.com/zely-js/dobs/tree/main/packages/dobs): core package
+- [@dobs/http](https://github.com/zely-js/dobs/tree/main/packages/dobs-http): a simple server based on `node:http`
+- [module-loader-ts](https://github.com/zely-js/dobs/tree/main/packages/module-loader): module loader supporting TypeScript, JavaScript, and JSON loading
+
+### packages/dobs
+
+The operation of dobs is quite simple:
+
+1. Create a server (call `createDobsServer`)
+2. Generate routes based on file names
+3. Compile TypeScript and JavaScript files (all files)
+4. Handle incoming requests
+
+Modules used:
+
+- [rolldown](https://rolldown.rs): module compilation
+- [animaux](https://npmjs.com/animaux): CLI development
+- [chalk](https://npmjs.com/chalk): console coloring
+- [chokidar](https://npmjs.com/chokidar): detects file changes in development mode
+- [deepmerge-ts](https://npmjs.com/deepmerge-ts): merges default and user configurations
+
+### packages/dobs-http
+
+`@dobs/http` is a small base server module inspired by Koa.
+
+```ts
+import server from "@dobs/http";
+
+const app = server();
+app.use((req, res, next) => {
+  // ...
+  next();
+});
+app.listen(8080);
+```
+
+It doesn't include a router—only middleware can be used.
+
+<Box type="info">Written on October 26, 2025 (very early version)</Box>
+
+### packages/create-dobs
+
+`create-dobs` is a tool for starting dobs app.
+
+```bash
+npm create dobs
+```
+
+### packages/module-loader
+
+`module-loader-ts` is module loader supporting TypeScript, JavaScript, and JSON loading.
+
+```ts
+import { load } from "module-loader-ts";
+import path from "path";
+
+await load("./config", {
+  extension: [".ts", ".js"],
+});
+```
+
+Modules used:
+
+- [rolldown](https://rolldown.rs): module compilation
+
+## Future Plans
+
+All useful features from zelyjs will be reimplemented, such as data caching and build support.
+
+<Box type="info">
+  This post was originally written in Korean and translated into English using
+  AI.
+</Box>

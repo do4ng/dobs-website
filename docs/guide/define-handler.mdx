@@ -1,0 +1,141 @@
+To handle requests in a route file, you must follow the dobs handler form.
+
+<Tabs>
+  <TabItem id="TypeScript"> 
+```ts
+import { defineRoutes } from "dobs";
+
+export default defineRoutes((req, res) => {
+  res.send("I'm here!");
+});
+```
+  </TabItem>
+  <TabItem id="JavaScript">
+
+```ts
+module.exports = (req, res) => {
+  res.send("I'm here!");
+};
+```
+
+  </TabItem>
+</Tabs>
+
+This responds with `I'm here!` to all requests, regardless of the HTTP method.
+
+<Box type="tip">
+  The `defineRoutes()` function exists solely for type safety. It can be used in
+  JavaScript, but it’s optional in TypeScript.
+</Box>
+
+## Handling Different Methods
+
+To handle requests differently for each HTTP method, export an object that includes method-specific handlers.
+
+<Tabs>
+  <TabItem id="TypeScript"> 
+```ts
+import { defineRoutes } from "dobs";
+
+export default defineRoutes({
+  GET(req, res) {
+    res.send({ message: "This is GET" });
+  },
+  POST(req, res) {
+    res.send({ message: "This is POST" });
+  },
+});
+```
+  </TabItem>
+  <TabItem id="JavaScript">
+
+```ts
+module.exports = {
+  GET(req, res) {
+    res.send({ message: "This is GET" });
+  },
+  POST(req, res) {
+    res.send({ message: "This is POST" });
+  },
+};
+```
+
+  </TabItem>
+</Tabs>
+
+The handler in this example is written in function form.
+If you want to return constant values instead, you can write it like this:
+
+<Tabs>
+  <TabItem id="TypeScript"> 
+```ts
+import { defineRoutes } from "dobs";
+
+export default defineRoutes({
+  GET: { message: "This is GET" },
+  POST: { message: "This is POST" },
+});
+```
+  </TabItem>
+  <TabItem id="JavaScript">
+
+```ts
+module.exports = {
+  GET: { message: "This is GET" },
+  POST: { message: "This is POST" },
+};
+```
+
+  </TabItem>
+</Tabs>
+
+<Box type="warning">Constant handler data must be of the **object** type.</Box>
+
+## Handling All Requests
+
+If you want to handle all requests regardless of method, define an `ALL` handler.
+
+<Tabs>
+  <TabItem id="TypeScript"> 
+```ts
+import { defineRoutes } from "dobs";
+
+export default defineRoutes((req, res) => {});
+```
+  </TabItem>
+  <TabItem id="JavaScript">
+
+```ts
+module.exports = (req, res) => {};
+```
+
+  </TabItem>
+</Tabs>
+
+Or:
+
+<Tabs>
+  <TabItem id="TypeScript">
+
+```ts
+import { defineRoutes } from "dobs";
+
+export default defineRoutes({
+  ALL(req, res) {},
+});
+```
+
+  </TabItem>
+  <TabItem id="JavaScript">
+  
+  
+```js
+module.exports = {
+  ALL: (req, res) => {}
+}
+```
+
+  </TabItem>
+</Tabs>
+
+If an `ALL` handler is included in the exported object, **all requests will be processed by it**, regardless of other handlers.
