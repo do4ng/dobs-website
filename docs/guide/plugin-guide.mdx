@@ -1,0 +1,47 @@
+Plugins allow you to go beyond simple middleware-based server implementations and extend your server at the framework level.
+
+## Applying a Plugin
+
+To apply a plugin, add it to the `plugins` field in your configuration.
+
+```ts
+import { defineConfig } from "dobs";
+import { MY_PLUGIN } from "./plugin";
+
+export default defineConfig({
+  plugins: [MY_PLUGIN()],
+});
+```
+
+## Plugin Example
+
+```ts
+import type { Plugin } from "dobs";
+
+let config;
+
+export const PLUGIN: Plugin = {
+  name: "TEST_PLUGIN", // used for debugging
+
+  // Access the unresolved config
+  config(cfg) {
+    cfg.port = 8080;
+  },
+
+  // Access the resolved config
+  resolvedConfig(_config) {
+    config = _config;
+  },
+
+  // Access compiler options
+  resolveBuildOptions(buildOptions) {
+    buildOptions.tsconfig = "./tsconfig.json";
+  },
+
+  // Access route definitions
+  // Example: https://github.com/zely-js/dobs/blob/main/packages/dobs/src/experimental/cache.ts#L140
+  async generateRoute(route) {},
+};
+```
+
+See [plugin.ts](https://github.com/zely-js/dobs/blob/main/packages/dobs/src/plugin.ts) for reference.

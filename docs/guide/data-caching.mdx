@@ -2,7 +2,37 @@ You can improve server performance by caching heavy data or operations for reuse
 
 ## Usage
 
-Caching is provided through a helper function.
+Data caching is still an experimental feature and is disabled by default.
+You need to enable it manually before use.
+
+### Using Plugin
+
+You can activate data caching through the caching plugin.
+
+```ts
+import { defineConfig } from "dobs";
+import { cachePlugin } from "dobs/experimental";
+
+export default defineConfig({
+  plugins: [cachePlugin()],
+});
+```
+
+Then, to enable caching for specific handlers, prefix the handler key with `$`.
+
+```ts
+import { defineRoutes } from "dobs";
+
+export default defineRoutes({
+  $GET(req, res) {
+    // caching enabled
+  },
+});
+```
+
+### Using Wrapper
+
+Caching is also provided through a helper function.
 To enable caching, pass a cache instance as the second argument to `defineRoutes()`.
 
 ```ts

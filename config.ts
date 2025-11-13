@@ -37,6 +37,7 @@ export default [
           { "config-file": "Config File" },
           { build: "Build Server" },
           { "data-caching": "Data Caching" },
+          { "plugin-guide": "Plugin Guide" },
           { cli: "CLI" },
         ],
       },

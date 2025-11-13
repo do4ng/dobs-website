@@ -61,20 +61,13 @@ export interface ResolvedServerConfig {
    */
   temp: string;
 
-  _internal: {
-    preloaded_modules: Record<string, any>;
-    /**
-     * + `default` : use file routes (default)
-     * + `force-preloaded-modules` : use preloaded pages (no disk files)
-     */
-    mode: "default" | "force-preloaded-modules";
-  };
-
   build: {
     /**
      * build output directory (relative)
      */
     directory: string;
   };
+
+  plugins: Plugin[];
 }
 ```
