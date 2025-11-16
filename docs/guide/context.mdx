@@ -1,0 +1,272 @@
+dobs is built on top of a base server that implements middleware using Node’s [`http`](https://nodejs.org/api/http.html) module.
+This means the `request` and `response` instances passed to handlers support all features provided by Node `http`, along with additional custom utilities.
+
+For details on how the context is implemented, refer to the
+[source code](https://github.com/zely-js/dobs/blob/main/packages/dobs-http/src/context.ts).
+
+---
+
+- Response
+
+| Section                              | Description              |
+| ------------------------------------ | ------------------------ |
+| [req.pathname](#reqpathname)         | URL pathname             |
+| [req.href](#reqhref)                 | Full URL href            |
+| [req.search](#reqsearch)             | URLSearchParams instance |
+| [req.searchString](#reqsearchstring) | Raw search string        |
+| [req.query](#reqquery)               | Parsed query object      |
+| [req.URL](#requrl)                   | URL instance             |
+| [req.rawBody](#reqrawbody)           | Raw request body string  |
+
+- Request
+
+| Section                          | Description               |
+| -------------------------------- | ------------------------- |
+| [res.status](#resstatus)         | Set HTTP status code      |
+| [res.message](#resmessage)       | Set HTTP status message   |
+| [res.type](#restype)             | Set Content-Type          |
+| [res.redirect](#resredirect)     | Redirect to URL           |
+| [res.set](#resset)               | Set headers               |
+| [res.get](#resget)               | Get header                |
+| [res.remove](#resremove)         | Remove header             |
+| [res.has](#reshas)               | Check header existence    |
+| [res.isWritable](#resiswritable) | Check writable state      |
+| [res.send](#ressend)             | Auto-detect and send data |
+| [res.text](#restext)             | Send plain text           |
+| [res.json](#resjson)             | Send JSON                 |
+| [res.html](#reshtml)             | Send HTML                 |
+| [res.sendFile](#ressendfile)     | Send file                 |
+
+## Request
+
+### req.pathname
+
+Type: `string`
+Provides the URL pathname.
+
+```ts
+console.log(req.pathname);
+// "/users/123"
+```
+
+### req.href
+
+Type: `string`
+Provides the full URL href.
+
+```ts
+console.log(req.href);
+// "http://localhost:3000/users/123?active=true"
+```
+
+### req.search
+
+Type: `URLSearchParams`
+Provides the URL search parameters.
+
+```ts
+const active = req.search.get("active");
+console.log(active);
+// "true"
+```
+
+### req.searchString
+
+Type: `string`
+Provides the raw search string (without "?").
+
+```ts
+console.log(req.searchString);
+// "active=true&page=4"
+```
+
+### req.query
+
+Type: `object`
+Returns the search parameters as a plain object.
+
+```ts
+console.log(req.query);
+// { active: "true", page: "4" }
+```
+
+### req.URL
+
+Type: `URL`
+Returns a URL instance built from the incoming request.
+
+```ts
+console.log(req.URL.hostname); // "localhost"
+console.log(req.URL.pathname); // "/users/123"
+```
+
+### req.rawBody
+
+Type: `string`
+Provides the raw request body as a string.
+
+```ts
+server.post("/submit", (req, res) => {
+  console.log(req.rawBody);
+  // "{ \"message\": \"hello\" }"
+  res.send("ok");
+});
+```
+
+If you need accurate and structured body parsing (e.g., JSON, form data), use an external middleware such as
+[`body-parser`](https://www.npmjs.com/package/body-parser).
+
+## Response
+
+The `Response` object extends Node’s native [`ServerResponse`](https://nodejs.org/api/http.html#class-httpserverresponse) and provides additional helper methods commonly used in web frameworks.
+These utilities help you set headers, send data in various formats, and manage response states more easily.
+
+### res.status
+
+Type: `(statusCode: number) => this`
+Sets the HTTP status code.
+
+```ts
+res.status(404).send("Not found");
+```
+
+### res.message
+
+Type: `(message: string) => this`
+Sets the HTTP status message.
+
+```ts
+res.status(400).message("Bad Request").send();
+```
+
+### res.type
+
+Type: `(type: string) => this`
+Sets the `Content-Type` header.
+Supports file extensions, short names, and full MIME types.
+
+```ts
+res.type(".json");
+res.type("json");
+res.type("application/json");
+```
+
+### res.redirect
+
+Type: `(url: string) => this`
+Performs a 302 redirect to the given URL.
+
+```ts
+res.redirect("https://example.com");
+```
+
+### res.set
+
+Type: `(field: string | Record<string, any>, value?: any) => this`
+Sets one or multiple response headers.
+
+```ts
+res.set("foo", "bar");
+
+res.set({
+  "x-powered-by": "dobs",
+  "cache-control": "no-store",
+});
+```
+
+### res.get
+
+Type: `(field: string) => any`
+Gets the value of a response header.
+
+```ts
+console.log(res.get("content-type"));
+```
+
+### res.remove
+
+Type: `(field: string) => this`
+Removes a header.
+
+```ts
+res.remove("x-powered-by");
+```
+
+### res.has
+
+Type: `(field: string) => boolean`
+Checks if a header is already set.
+
+```ts
+if (!res.has("content-type")) {
+  res.type("text/plain");
+}
+```
+
+### res.isWritable
+
+Type: `() => boolean`
+Checks whether the response is still writable (not finished or closed).
+
+```ts
+if (!res.isWritable()) return;
+res.send("ok");
+```
+
+---
+
+## Data Sending Methods
+
+### res.send
+
+Type: `(data: any) => void`
+Automatically detects the data type and sends it with the appropriate `Content-Type`.
+
+Supports:
+`string`, `Buffer`, `object`, `number`, etc.
+
+```ts
+res.send("hello world"); // text
+res.send({ ok: true }); // JSON
+res.send(Buffer.from("hi")); // binary
+```
+
+If you want to manually control output, use `res.end()` instead.
+
+---
+
+### res.text
+
+Type: `(data: any) => void`
+Sends raw text with `Content-Type: text/plain`.
+
+```ts
+res.text("plain text response");
+```
+
+### res.json
+
+Type: `(data: any) => void`
+Sends JSON with `Content-Type: application/json`.
+
+```ts
+res.json({ user: "yo", id: 1 });
+```
+
+### res.html
+
+Type: `(data: string) => void`
+Sends HTML with `Content-Type: text/html`.
+
+```ts
+res.html("<h1>Hello</h1>");
+```
+
+### res.sendFile
+
+Type: `(file: string) => void`
+Sends a file from disk.
+
+```ts
+res.sendFile("./public/index.html");
+```

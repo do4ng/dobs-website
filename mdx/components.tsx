@@ -49,7 +49,22 @@ export const components = {
       return <Link {...props} target="_blank" passHref={true}></Link>;
     }
 
-    return <Link {...props} prefetch={false}></Link>;
+    return (
+      <Link
+        {...props}
+        prefetch={false}
+        onClick={(e) => {
+          console.log(props.href);
+
+          if (props.href.startsWith("#")) {
+            document.querySelector(props.href)?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        }}
+      ></Link>
+    );
   },
   h2: (props: any) => {
     const text = extractText(props.children);

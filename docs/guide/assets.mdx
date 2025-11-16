@@ -1,0 +1,18 @@
+Assets can be handled using the built-in assets feature.
+
+## Asset Plugin
+
+The asset plugin is available through `dobs/experimental`.
+
+```ts
+import { defineConfig } from "dobs";
+import { publicPlugin } from "dobs/experimental";
+
+import { join } from "node:path";
+
+export default defineConfig({
+  plugins: [publicPlugin("/", join(process.cwd(), "./public/"))],
+});
+```
+
+If you plan to support [build](/docs/build), make sure to provide an absolute directory path.

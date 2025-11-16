@@ -1,10 +1,8 @@
-Dobs automatically generates routes based on your file tree of pages.
-
-Route files must be located in the `/app/` directory, and all files within the `/app/` directory are treated as routes.
-
-In the example below, the `.ts` extension is used, but the `.js` extension is also supported.
+Dobs automatically generates routes based on the file tree of pages. All route files must be located inside the `/app/` directory, and every file within this directory is treated as a route. Both `.ts` and `.js` extensions are supported.
 
 ## Static Routes
+
+Static routes map directly to a specific URL path.
 
 | Filename      | Path     |
 | ------------- | -------- |
@@ -12,11 +10,65 @@ In the example below, the `.ts` extension is used, but the `.js` extension is al
 | `/foo.ts`     | /foo     |
 | `/foo/bar.ts` | /foo/bar |
 
+**Example File Tree for Static Routes:**
+
+```
+/app
+├── index.ts       // → /
+├── foo.ts         // → /foo
+└── foo
+    └── bar.ts     // → /foo/bar
+```
+
+---
+
 ## Dynamic Routes
 
-| Filename          | Path       |
-| ----------------- | ---------- |
-| `/[id].ts`        | /:id       |
-| `/[id]/index.ts`  | /:id       |
-| `/[id]/foo.ts`    | /:id/foo   |
-| `/[...params].ts` | /:\*params |
+Dynamic routes use square brackets `[ ]` to indicate path parameters.
+
+| Filename          | Path      |
+| ----------------- | --------- |
+| `/[id].ts`        | /:id      |
+| `/[id]/index.ts`  | /:id      |
+| `/[id]/foo.ts`    | /:id/foo  |
+| `/[...params].ts` | /\*params |
+
+**Example File Tree for Dynamic Routes:**
+
+```
+/app
+├── [id].ts             // → /:id
+├── [id]
+│   ├── index.ts        // → /:id
+│   └── foo.ts          // → /:id/foo
+└── [...params].ts      // → /*params
+```
+
+### Notes
+
+1. **Dynamic Segments**: `[segment]` captures a single path segment.
+   Example: `/123`, `/abc`
+
+2. **Nested Dynamic Routes**: `/[id]/index.ts` maps to the same route as `/[id]`. Nested dynamic routes allow for organizing files under a dynamic folder.
+
+3. **Catch-All Routes**: `[...params].ts` captures multiple path segments as an array.
+   Example: `/a/b/c`, `/x/y`
+
+---
+
+## Example
+
+```
+/app
+├── index.ts          → /
+├── foo.ts            → /foo
+├── foo
+│   └── bar.ts        → /foo/bar
+├── [id].ts           → /:id
+├── [id]
+│   ├── index.ts      → /:id
+│   └── foo.ts        → /:id/foo
+└── [...params].ts    → /*params
+```
+
+This structure provides a clear overview of both static and dynamic routes in Dobs.
