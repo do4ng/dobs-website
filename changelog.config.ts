@@ -3,4 +3,9 @@ export interface Change {
   target: string;
 }
 
-export default [] satisfies Change[];
+export default [
+  {
+    version: "0.1.0-beta.2",
+    target: "November 20, 2025",
+  },
+] satisfies Change[];

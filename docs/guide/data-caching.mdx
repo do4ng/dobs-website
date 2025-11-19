@@ -21,9 +21,9 @@ export default defineConfig({
 Then, to enable caching for specific handlers, prefix the handler key with `$`.
 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 
-export default defineRoutes({
+export default defineRouter({
   $GET(req, res) {
     // caching enabled
   },
@@ -33,17 +33,17 @@ export default defineRoutes({
 ### Using Wrapper
 
 Caching is also provided through a helper function.
-To enable caching, pass a cache instance as the second argument to `defineRoutes()`.
+To enable caching, pass a cache instance as the second argument to `defineRouter()`.
 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 import { useCache } from "dobs/experimental";
 
-export default defineRoutes((req, res) => {}, [useCache()]);
+export default defineRouter((req, res) => {}, [useCache()]);
 ```
 
 <Box type="info">
-  If you are not using `defineRoutes()`, you can wrap your router object instead.
+  If you are not using `defineRouter()`, you can wrap your router object instead.
 
 ```ts
 import { useCache } from "dobs/experimental";

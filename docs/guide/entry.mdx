@@ -1,0 +1,49 @@
+You can define a server entry file to directly access the server instance.
+
+If a file named `server.entry.{ts|js}` exists in the project root directory, Dobs will automatically load and execute it as the server entry.
+
+<Tabs>
+  <TabItem id="server.entry.ts">
+
+```ts
+import type { BaseServer } from "@dobsjs/http";
+
+export default (server: BaseServer) => {
+  server.use((req, res, next) => next());
+};
+```
+
+  </TabItem>
+
+  <TabItem id="server.entry.js">
+
+```js
+module.exports = (server) => {
+  server.use((req, res, next) => next());
+};
+```
+
+  </TabItem>
+</Tabs>
+
+## Custom Entry
+
+You can specify a custom server entry file:
+
+```ts
+import { defineConfig } from "dobs";
+
+export default defineConfig({
+  serverEntry: "./my-entry.ts",
+});
+```
+
+## Execution Order
+
+The server entry is executed when the server is first created, before any middleware is added.
+This allows you to interact with the server in its initial state.
+
+0. Run plugins
+1. **Execute server entry**
+2. Apply `config.middlewares`
+3. Register router middleware

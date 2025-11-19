@@ -1,16 +1,16 @@
 To handle requests in a route file, you must follow the dobs handler form.
 
 <Tabs>
-  <TabItem id="TypeScript"> 
+  <TabItem id="app/*.ts"> 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 
-export default defineRoutes((req, res) => {
+export default defineRouter((req, res) => {
   res.send("I'm here!");
 });
 ```
   </TabItem>
-  <TabItem id="JavaScript">
+  <TabItem id="app/*.js">
 
 ```ts
 module.exports = (req, res) => {
@@ -24,7 +24,7 @@ module.exports = (req, res) => {
 This responds with `I'm here!` to all requests, regardless of the HTTP method.
 
 <Box type="tip">
-  The `defineRoutes()` function exists solely for type safety. It can be used in
+  The `defineRouter()` function exists solely for type safety. It can be used in
   JavaScript, but it’s optional in TypeScript.
 </Box>
 
@@ -35,9 +35,9 @@ To handle requests differently for each HTTP method, export an object that inclu
 <Tabs>
   <TabItem id="TypeScript"> 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 
-export default defineRoutes({
+export default defineRouter({
   GET(req, res) {
     res.send({ message: "This is GET" });
   },
@@ -69,9 +69,9 @@ If you want to return constant values instead, you can write it like this:
 <Tabs>
   <TabItem id="TypeScript"> 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 
-export default defineRoutes({
+export default defineRouter({
   GET: { message: "This is GET" },
   POST: { message: "This is POST" },
 });
@@ -98,9 +98,9 @@ If you want to handle all requests regardless of method, define an `ALL` handler
 <Tabs>
   <TabItem id="TypeScript"> 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 
-export default defineRoutes((req, res) => {});
+export default defineRouter((req, res) => {});
 ```
   </TabItem>
   <TabItem id="JavaScript">
@@ -118,9 +118,9 @@ Or:
   <TabItem id="TypeScript">
 
 ```ts
-import { defineRoutes } from "dobs";
+import { defineRouter } from "dobs";
 
-export default defineRoutes({
+export default defineRouter({
   ALL(req, res) {},
 });
 ```

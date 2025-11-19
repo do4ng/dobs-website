@@ -1,0 +1,47 @@
+Dobs can be used together with other backend frameworks.
+
+Since Dobs currently has a relatively small ecosystem, you may need to implement additional features by creating custom middleware or plugins.
+For this reason, integrating Dobs into another backend framework that already has a rich ecosystem can be a practical approach.
+
+```ts
+import { createDobsServer } from "dobs";
+
+createDobsServer({ mode: "middleware" });
+```
+
+When `mode` is set to `"middleware"`, Dobs will return an array of middleware functions.
+
+## With Express
+
+The following example shows how to use Dobs middleware with Express:
+
+```js
+const express = require("express");
+const http = require("@dobsjs/http");
+const dobs = require("dobs");
+
+const app = express();
+
+dobs.createDobsServer({ mode: "middleware" }).then((middlewares) => {
+  app.use((req, res, next) => {
+    req = http.createRequest(req);
+    res = http.createResponse(res);
+    next();
+  });
+  app.use(...middlewares);
+  app.listen(3000, () => console.log("server is listening on 3000"));
+});
+```
+
+Because Dobs uses its own HTTP base server, you must wrap both `req` and `res` with `createRequest()` and `createResponse()` so that Dobs middleware can function correctly.
+
+```js
+app.use(
+  ...middlewares.map(
+    (middleware) => (req, res, next) =>
+      middleware(createRequest(req), createResponse(res), next)
+  )
+);
+```
+
+If you do not want Dobs to modify your request and response objects, you should create independent request and response instances.

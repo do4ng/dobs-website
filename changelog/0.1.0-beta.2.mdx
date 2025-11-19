@@ -1,0 +1,21 @@
+## v0.1.0-beta.2
+
+- [**Server entry**](/docs/entry) ([#43](https://github.com/zely-js/dobs/pull/43))
+
+```ts
+// server.entry.ts
+export default (server) => {
+  server.use((req, res, next) => next());
+};
+```
+
+- **replace `defineRoutes()` with `defineRouter()`** ([#42](https://github.com/zely-js/dobs/issues/42))
+
+```js /defineRoutes/
+import { defineRouter } from "dobs"; // [!code --]
+import { defineRoutes } from "dobs"; // [!code ++]
+
+export default defineRoutes((req, res) => {});
+```
+
+> [full changelog](https://github.com/zely-js/dobs/blob/main/CHANGELOG.md#010-beta2-2025-11-19)
