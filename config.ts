@@ -39,10 +39,16 @@ export default [
           { "config-file": "Config File" },
           { build: "Build Server" },
           { "data-caching": "Data Caching" },
+          { devtool: "DevTool" },
           { assets: "Assets" },
+        ],
+      },
+      {
+        name: "APIs",
+        posts: [
           { "plugin-guide": "Plugin Guide" },
-          { cli: "CLI" },
           { "dobs-integration": "Dobs Integration" },
+          { cli: "CLI" },
         ],
       },
       {

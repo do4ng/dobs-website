@@ -23,6 +23,12 @@ let config;
 export const PLUGIN: Plugin = {
   name: "TEST_PLUGIN", // used for debugging
 
+  // Plugin target
+  // - undefined : all
+  // - "development" : only dev mode
+  // - "production" : only prod mode
+  apply: "development",
+
   // Access the unresolved config
   config(cfg) {
     cfg.port = 8080;

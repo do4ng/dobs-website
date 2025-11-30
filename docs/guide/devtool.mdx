@@ -1,0 +1,20 @@
+The devtool provides a simple environment where you can easily test your Dobs server.
+
+```ts
+import { defineConfig } from "dobs";
+
+export default defineConfig({
+  devtool: true, // [!code ++]
+});
+```
+
+After starting the server in development mode, you can access the devtool at the `/_dev_/` route.
+
+## Cannot use devtool
+
+The devtool is still an experimental feature and is not included in the main Dobs package due to stability and size limitations.
+To use the devtool, please install the `@dobsjs/dev` package, which contains the necessary devtool assets.
+
+```bash
+npm i --save-dev @dobsjs/dev
+```
