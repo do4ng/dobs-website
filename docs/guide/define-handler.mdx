@@ -139,3 +139,17 @@ module.exports = {
 </Tabs>
 
 If an `ALL` handler is included in the exported object, **all requests will be processed by it**, regardless of other handlers.
+
+## Define 404 Handler
+
+404 핸들러는 [configuration file](/docs/config-file)에서 설정할 수 있습니다.
+
+```ts {4-6}
+import { defineConfig } from "dobs";
+
+export default defineConfig({
+  onNotFound: (req, res, next) => {
+    res.status(404).end();
+  },
+});
+```

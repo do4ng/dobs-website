@@ -1,0 +1,26 @@
+`@dobsjs/websocket` provides a simple and minimal WebSocket implementation.
+
+## Usage
+
+```ts
+import { websocket } from "@dobsjs/websocket";
+import { defineConfig } from "dobs";
+
+export default defineConfig({
+  plugins: [
+    // [!code ++]
+    websocket({
+      // [!code ++]
+      open(ws) {
+        // [!code ++]
+        console.log("[ws] connected"); // [!code ++]
+      }, // [!code ++]
+      // [!code ++]
+      message(ws, message) {
+        // [!code ++]
+        console.log("[ws] message " + message.toString()); // [!code ++]
+      }, // [!code ++]
+    }), // [!code ++]
+  ],
+});
+```

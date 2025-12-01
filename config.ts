@@ -39,8 +39,15 @@ export default [
           { "config-file": "Config File" },
           { build: "Build Server" },
           { "data-caching": "Data Caching" },
-          { devtool: "DevTool" },
           { assets: "Assets" },
+        ],
+      },
+      {
+        name: "Plugins",
+        posts: [
+          { devtool: "@dobsjs/dev" },
+          { logger: "@dobsjs/logger" },
+          { websocket: "@dobsjs/websocket" },
         ],
       },
       {
