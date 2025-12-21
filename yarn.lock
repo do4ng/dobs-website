@@ -1352,10 +1352,10 @@ estree-walker@^3.0.0:
   dependencies:
     "@types/estree" "^1.0.0"
 
-exta@^0.0.1-beta.28:
-  version "0.0.1-beta.28"
-  resolved "https://registry.yarnpkg.com/exta/-/exta-0.0.1-beta.28.tgz#21e5f18c6b55bd40d529f9e1b00016bd847a05c9"
-  integrity sha512-HzouN8F3wXH3xAEwDAerbA8R+UZYJggIPf9eMfu/0b8oZQOqLQ4LyxaHGlXT3/pqqJmzmuctnDiRraSlyrYTrw==
+"exta@npm:exta2@latest":
+  version "0.0.1-beta.30"
+  resolved "https://registry.yarnpkg.com/exta2/-/exta2-0.0.1-beta.30.tgz#26d2533af4060b5cbb3e7f9183fd793376144d88"
+  integrity sha512-3u5JOHGMLpvObvLpohu/3MOxytt1auXsRN/AP/ii9DqEn3q/u+7tCAI612Iwn4EcJ8cb18hcG2Ro1MgRwvRWlw==
   dependencies:
     colors "^1.4.0"
     esbuild "^0.25.8"
