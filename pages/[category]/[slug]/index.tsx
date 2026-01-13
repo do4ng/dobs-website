@@ -159,19 +159,15 @@ export default function Page({
           <div className="directory">
             {directory
               .map((dir) => (
-                <>
-                  <div className="directory-path">
-                    {capitalizeFirstLetter(dir)}
-                  </div>
-                </>
+                <div className="directory-path" key={dir}>
+                  {capitalizeFirstLetter(dir)}
+                </div>
               ))
               .reduce(
-                (prev, curr) =>
+                (prev, curr, idx) =>
                   [
                     prev,
-                    <>
-                      <i className="ri-arrow-right-s-line"></i>
-                    </>,
+                    <i className="ri-arrow-right-s-line" key={idx}></i>,
                     curr,
                   ] as any
               )}

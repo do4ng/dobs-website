@@ -2,7 +2,7 @@
 
 /* eslint-disable import/no-cycle */
 
-import { usePathname } from "$exta-router";
+import { router, usePathname } from "$exta-router";
 import { Link } from "exta/components";
 
 import "../styles/global.scss";
@@ -15,6 +15,7 @@ import { Header } from "../components/header";
 import { CategoryMenu } from "../components/category";
 
 import React from "react";
+import { TopProgressBar } from "@/components/progress";
 
 export function toggleTheme(to: "dark" | "white" = "dark") {
   if (typeof window === "undefined") return;
@@ -56,6 +57,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       <Header></Header>
 
+      <TopProgressBar></TopProgressBar>
+
       {isDocs ? (
         <>
           <div className="documentation">
@@ -90,13 +93,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <div className="menu-content">
                   {target ? (
                     target.category.map((category) => (
-                      <>
+                      <React.Fragment key={category.name}>
                         <CategoryMenu
                           hidden={category.hidden || false}
                           category={category as any}
-                          key={category}
                         ></CategoryMenu>
-                      </>
+                      </React.Fragment>
                     ))
                   ) : (
                     <>page not found</>

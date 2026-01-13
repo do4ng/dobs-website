@@ -78,25 +78,21 @@ export function Header() {
             {docs.header.map((item) => {
               if (item.type === "popover") {
                 return (
-                  <>
-                    <Popover text={item.title} key={item.title}>
-                      {item.children.map((child) => (
-                        <>
-                          <div className="menu-item text-inter">
-                            <Link href={child.href} className="menu-container">
-                              <div className="menu-icon">
-                                <i className={child.icon}></i>
-                              </div>
-                              <div className="menu-content">
-                                <h4>{child.title}</h4>
-                                {child.description}
-                              </div>
-                            </Link>
+                  <Popover text={item.title} key={item.title}>
+                    {item.children.map((child) => (
+                      <div className="menu-item text-inter" key={child.href}>
+                        <Link href={child.href} className="menu-container">
+                          <div className="menu-icon">
+                            <i className={child.icon}></i>
                           </div>
-                        </>
-                      ))}
-                    </Popover>
-                  </>
+                          <div className="menu-content">
+                            <h4>{child.title}</h4>
+                            {child.description}
+                          </div>
+                        </Link>
+                      </div>
+                    ))}
+                  </Popover>
                 );
               }
               return (

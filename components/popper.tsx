@@ -1,30 +1,38 @@
-'use client';
+"use client";
 
-import { usePopper } from 'react-popper';
-import { useEffect, useState } from 'react';
+import { usePopper } from "react-popper";
+import React, { useEffect, useState } from "react";
 
-export function Popover({ children, text }: { children: React.ReactNode; text: string }) {
+export function Popover({
+  children,
+  text,
+}: {
+  children: React.ReactNode;
+  text: string;
+}) {
   const [referenceEl, setReferenceEl] = useState<HTMLElement | null>(null);
   const [popperEl, setPopperEl] = useState<HTMLElement | null>(null);
-  const [popperContainer, setPopperContainer] = useState<HTMLElement | null>(null);
+  const [popperContainer, setPopperContainer] = useState<HTMLElement | null>(
+    null
+  );
   const { styles, attributes } = usePopper(referenceEl, popperEl, {
-    placement: 'bottom-start',
+    placement: "bottom-start",
   });
 
   const showPopover = () => {
     // @ts-ignore
-    popperEl?.setAttribute('data-show', true);
+    popperEl?.setAttribute("data-show", true);
   };
 
   useEffect(() => {
     const hidePopover = () => {
-      popperEl?.removeAttribute('data-show');
+      popperEl?.removeAttribute("data-show");
     };
 
-    popperContainer?.addEventListener('mouseleave', hidePopover);
+    popperContainer?.addEventListener("mouseleave", hidePopover);
 
     return () => {
-      popperContainer?.removeEventListener('mouseleave', hidePopover);
+      popperContainer?.removeEventListener("mouseleave", hidePopover);
     };
   }, [popperEl, referenceEl, popperContainer]);
 
